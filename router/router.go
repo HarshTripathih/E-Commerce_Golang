@@ -179,8 +179,10 @@ func ClientRoutes() {
 	r.EcommerceProduct(v1)
 	r.EcommerceAuthUser(v1)
 
-	if err := r.router.Run(":" + os.Getenv("PORT")); err != nil {
-		log.Println("Failed to run server: %v", err)
+	port := "8000" // Set the desired port here
+
+	if err := r.router.Run(":" + port); err != nil {
+		log.Fatalf("Failed to run server: %v", err)
 	}
 }
 

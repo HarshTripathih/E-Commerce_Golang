@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
@@ -42,28 +41,58 @@ type Manager interface {
 	UpdateCartToCheckOut(types.Cart, string) error
 }
 
+// func ConnectDb() {
+// 	uri := os.Getenv("DB_HOST")
+// 	if uri == "" {
+// 		uri = constant.MDBUri
+// 	}
+// 	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprintf("%s%s", "mongodb://", uri)))
+
+// 	if err != nil {
+// 		ConnectDb()
+// 	}
+// 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+// 	err = client.Connect(ctx)
+// 	if err != nil {
+// 		log.Println("Unable to initialize database connectors. Retrying...")
+// 		ConnectDb()
+// 	}
+// 	err = client.Ping(ctx, readpref.Primary())
+// 	if err != nil {
+// 		log.Println("Unable to connect to the database. Retrying...")
+// 		ConnectDb()
+// 	}
+// 	log.Println("Successfully connected to the database at %s", uri)
+
+// 	Mgr = &manager{connection: client, ctx: ctx, cancel: cancel}
+// }
+
 func ConnectDb() {
 	uri := os.Getenv("DB_HOST")
 	if uri == "" {
 		uri = constant.MDBUri
 	}
-	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprintf("%s%s", "mongodb://", uri)))
+
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://harshtripathih321:Harsh%40123@golang.mefyyhe.mongodb.net/"))
 
 	if err != nil {
-		ConnectDb()
+		log.Fatal(err)
 	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
 	err = client.Connect(ctx)
 	if err != nil {
-		log.Println("Unable to initialize database connectors. Retrying...")
-		ConnectDb()
+		log.Fatal(err)
 	}
+
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
-		log.Println("Unable to connect to the database. Retrying...")
-		ConnectDb()
+		log.Fatal(err)
 	}
-	log.Println("Successfully connected to the database at %s", uri)
+
+	log.Println("Successfully connected to the database")
 
 	Mgr = &manager{connection: client, ctx: ctx, cancel: cancel}
 }

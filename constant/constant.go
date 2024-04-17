@@ -7,7 +7,7 @@ const (
 
 	// schedular constants
 	HealthCheckRoute = "/health"
-	MDBUri           = "localhost:27017"
+	MDBUri           = "mongodb+srv://harshtripathih321:Harsh%40123@golang.mefyyhe.mongodb.net/"
 	Database         = "ecommerce"
 	Sender           = ""
 
